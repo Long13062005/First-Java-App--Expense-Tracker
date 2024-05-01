@@ -7,6 +7,9 @@ package view.user;
 import view.admin.*;
 import java.awt.Image;
 import javax.swing.ImageIcon;
+import model.User;
+import service.IUserService;
+import service.imp.UserService;
 import view.security.LoginForm;
 
 /**
@@ -14,6 +17,16 @@ import view.security.LoginForm;
  * @author TechCare
  */
 public class UserDashboard extends javax.swing.JFrame {
+    private static User user;
+    private IUserService service = new UserService();
+
+    public UserDashboard(User user) {
+        this.user = service.getByUsername(user.getUsername());
+           initComponents();
+        scaleImage();
+        setTitle("Dashboard");
+   
+    }
 
     /**
      * Creates new form AdminDashboard
@@ -21,7 +34,9 @@ public class UserDashboard extends javax.swing.JFrame {
     public UserDashboard() {
         initComponents();
         scaleImage();
+        
     }
+    
     public void scaleImage(){
         ImageIcon icon = new ImageIcon("E:\\VKU\\JavaAdvandce\\Lab1\\DACS1\\src\\assets\\user.png");
         ImageIcon iconExpense = new ImageIcon("E:\\VKU\\JavaAdvandce\\Lab1\\DACS1\\src\\assets\\expenses.png");
@@ -38,6 +53,17 @@ public class UserDashboard extends javax.swing.JFrame {
 
         iconAdmin.setIcon(scaledIcon);
         iconExp.setIcon(scaledIconExp);
+              usernameLabel.setText(user.getUsername());
+          if( user.getBalance()> 0) {
+            expenseLabel.setText(String.valueOf(user.getBalance()));
+            expenseLabel.setForeground(java.awt.Color.BLUE);
+        } else {
+            expenseLabel.setText(String.valueOf(user.getBalance()));
+            expenseLabel.setForeground(java.awt.Color.RED);
+            
+        }
+       
+
     }
 
     /**
@@ -51,8 +77,11 @@ public class UserDashboard extends javax.swing.JFrame {
 
         jPanel2 = new javax.swing.JPanel();
         iconAdmin = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
         logoutBtn = new javax.swing.JButton();
+        usernameLabel = new javax.swing.JLabel();
+        Income = new javax.swing.JLabel();
+        expenseLabel = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         iconExp = new javax.swing.JButton();
         iconUs1 = new javax.swing.JButton();
@@ -61,10 +90,8 @@ public class UserDashboard extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
-
-        jLabel2.setFont(new java.awt.Font("Segoe UI Emoji", 0, 18)); // NOI18N
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("Welcome back");
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanel2.add(iconAdmin, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 6, 241, 234));
 
         logoutBtn.setText("Logout");
         logoutBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -72,34 +99,27 @@ public class UserDashboard extends javax.swing.JFrame {
                 logoutBtnActionPerformed(evt);
             }
         });
+        jPanel2.add(logoutBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 550, 83, -1));
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(iconAdmin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(84, 84, 84)
-                .addComponent(logoutBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(86, Short.MAX_VALUE))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(iconAdmin, javax.swing.GroupLayout.DEFAULT_SIZE, 234, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(58, 58, 58)
-                .addComponent(logoutBtn)
-                .addGap(92, 92, 92))
-        );
+        usernameLabel.setFont(new java.awt.Font("Segoe UI Emoji", 1, 36)); // NOI18N
+        usernameLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        usernameLabel.setText("username");
+        jPanel2.add(usernameLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 300, 247, 80));
+
+        Income.setFont(new java.awt.Font("Segoe UI Emoji", 0, 18)); // NOI18N
+        Income.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        Income.setText("Expense");
+        jPanel2.add(Income, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 380, 240, 30));
+
+        expenseLabel.setFont(new java.awt.Font("Segoe UI Emoji", 0, 18)); // NOI18N
+        expenseLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        expenseLabel.setText("price 7");
+        jPanel2.add(expenseLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 410, 230, 30));
+
+        jLabel5.setFont(new java.awt.Font("Segoe UI Emoji", 0, 24)); // NOI18N
+        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel5.setText("Welcome back");
+        jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 250, 247, 80));
 
         jPanel1.setBackground(new java.awt.Color(3, 21, 68));
 
@@ -127,7 +147,7 @@ public class UserDashboard extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(89, Short.MAX_VALUE)
+                .addContainerGap(85, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(iconExp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(iconUs1, javax.swing.GroupLayout.DEFAULT_SIZE, 228, Short.MAX_VALUE)
@@ -174,7 +194,7 @@ public class UserDashboard extends javax.swing.JFrame {
     private void iconExpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_iconExpActionPerformed
         // TODO add your handling code here:
         dispose();
-        ExpenseList el = new ExpenseList();
+        ExpenseListUser el = new ExpenseListUser(user);
         el.setVisible(true);
     }//GEN-LAST:event_iconExpActionPerformed
 
@@ -209,19 +229,22 @@ public class UserDashboard extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new UserDashboard().setVisible(true);
+                new UserDashboard(user).setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel Income;
+    private javax.swing.JLabel expenseLabel;
     private javax.swing.JLabel iconAdmin;
     private javax.swing.JButton iconExp;
     private javax.swing.JButton iconUs1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JButton logoutBtn;
+    private javax.swing.JLabel usernameLabel;
     // End of variables declaration//GEN-END:variables
 }

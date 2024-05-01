@@ -7,34 +7,37 @@ package view.security;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
- import java.sql.*;
+import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.Timer;
+import model.User;
 import service.IUserService;
 import service.imp.UserService;
 import view.Run;
 import view.admin.AdminDashboard;
 import view.user.UserDashboard;
- 
 
 /**
  *
  * @author TechCare
  */
 public class LoginForm extends javax.swing.JFrame {
+
     private IUserService userService = new UserService();
+
     /**
      * Creates new form LoginForm
      */
-    
+
     public LoginForm() {
         initComponents();
-                scaleImage();
+        scaleImage();
 
     }
-      public void scaleImage(){
+
+    public void scaleImage() {
         ImageIcon icon = new ImageIcon("E:\\VKU\\JavaAdvandce\\Lab1\\DACS1\\src\\assets\\login.png");
         Image image = icon.getImage();
         Image imgScale = image.getScaledInstance(iconAcc.getWidth(), iconAcc.getHeight(), Image.SCALE_SMOOTH);
@@ -252,31 +255,33 @@ public class LoginForm extends javax.swing.JFrame {
 
     private void loginBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginBtnActionPerformed
         // TODO add your handling code here:
-            if(userService.adminLogin(username.getText(), String.valueOf(password.getPassword()))) {
-                 jLabel_Message.setText("Welcome back admin");
-                jLabel_Message.setForeground(java.awt.Color.GREEN);
-                dispose();
-                AdminDashboard ad = new AdminDashboard();
-                ad.setVisible(true);
-                return;
-            }
-            if(userService.login(username.getText(), String.valueOf(password.getPassword()))){
-                jLabel_Message.setText("Login Successesfully");
-                jLabel_Message.setForeground(java.awt.Color.GREEN);
-                dispose();
-                UserDashboard ud = new UserDashboard();
-                ud.setVisible(true);
-                return;
-            }
-            else{
-                jLabel_Message.setText("Invalide Username Or Password");
-                jLabel_Message.setForeground(java.awt.Color.RED);
-            }
+        if (userService.adminLogin(username.getText(), String.valueOf(password.getPassword()))) {
+            jLabel_Message.setText("Welcome back admin");
+            jLabel_Message.setForeground(java.awt.Color.GREEN);
+            dispose();
+            User user = userService.getByUsername(username.getText());
+            AdminDashboard ad = new AdminDashboard(user);
+            ad.setVisible(true);
+            return;
+        }
+        if (userService.login(username.getText(), String.valueOf(password.getPassword()))) {
+            jLabel_Message.setText("Login Successesfully");
+            jLabel_Message.setForeground(java.awt.Color.GREEN);
+            User user = userService.getByUsername(username.getText());
+
+            dispose();
+            UserDashboard ud = new UserDashboard(user);
+            ud.setVisible(true);
+            return;
+        } else {
+            jLabel_Message.setText("Invalide Username Or Password");
+            jLabel_Message.setForeground(java.awt.Color.RED);
+        }
     }//GEN-LAST:event_loginBtnActionPerformed
 
     private void registerBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerBtnActionPerformed
         // TODO add your handling code here:
-          RegisterForm registerForm = new RegisterForm();
+        RegisterForm registerForm = new RegisterForm();
         // Make the registerForm visible
         registerForm.show();
         dispose();
@@ -285,11 +290,11 @@ public class LoginForm extends javax.swing.JFrame {
 
     private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
         // TODO add your handling code here:
-        
-        if(jCheckBox1.isSelected()){
-            password.setEchoChar((char)0);
-        }else{
-          password.setEchoChar('*');
+
+        if (jCheckBox1.isSelected()) {
+            password.setEchoChar((char) 0);
+        } else {
+            password.setEchoChar('*');
         }
     }//GEN-LAST:event_jCheckBox1ActionPerformed
 

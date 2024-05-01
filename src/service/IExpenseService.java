@@ -15,9 +15,10 @@ import model.User;
  * @author TechCare
  */
 public interface IExpenseService {
-     boolean create(ExpenseIncomeEntry expenseIncomeEntry);
-    List<ExpenseIncomeEntry> getAll();
-    ExpenseIncomeEntry getById(int id);
-    boolean update(ExpenseIncomeEntry expenseIncomeEntry);
-    boolean delete(int id);
+       boolean create(ExpenseIncomeEntry expenseIncomeEntry,User user);
+    List<ExpenseIncomeEntry> getAll(User user);
+    ExpenseIncomeEntry getById(int id,User user);
+    boolean delete(int id,User user);
+    int createAndGetId(ExpenseIncomeEntry entry, User user);
+    List<ExpenseIncomeEntry> findByDate(String dateFind, User user);
 }

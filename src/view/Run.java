@@ -40,43 +40,7 @@ public class Run extends javax.swing.JFrame {
         iconImg2.setIcon(scaledIcon2);
 
     }
-    public void goToUserList() {
-
     
-    // Create an instance of AdminScreen
-    Run as = new Run();
-    // Create and display the form in the event dispatch thread
-    java.awt.EventQueue.invokeLater(new Runnable() {
-        public void run() {
-            as.setVisible(true);
-        }
-    });
-    
-    // Simulate loading progress
-    try {
-        for (int i = 0; i <= 100; i++) {
-            final int progress = i;
-            javax.swing.SwingUtilities.invokeLater(new Runnable() {
-                public void run() {
-                    // Update the loading bar progress
-                    // Assuming you have a loading bar component in the AdminScreen
-                    // Replace "as.loadingBar" with the correct reference to the loading bar component
-                    as.loadingBar.setValue(progress);
-                }
-            });
-            Thread.sleep(40); // Simulate loading delay
-        }
-    } catch (InterruptedException e) {
-        e.printStackTrace();
-    }
-    
-    // Close the splash screen
-    as.dispose();
-    
-    // Display the user list screen
-    UserList userList = new UserList();
-    userList.setVisible(true);
-    }
     
 
     /**

@@ -15,10 +15,13 @@ import model.dto.UserDto;
  */
 public interface IUserRepository {
      boolean create(User user);
-    List<UserDto> getAll();
-    User getById(int id);
+    List<User> getAll();
+    User getByUsername(String username);
     boolean changePassword(User user);
     boolean delete(int id);
     boolean login(String username,String password);
     boolean adminLogin(String username,String password);
+    User findById(int id);
+    boolean updateBalance(int id,double newBalance);
+    int countUser();
 }

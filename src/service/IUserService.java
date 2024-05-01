@@ -16,9 +16,12 @@ import model.User;
 public interface IUserService {
      boolean create(User user);
     List<User> getAll();
-    User getById(int id);
+    User getByUsername(String username);
     boolean changePassword(User user);
     boolean delete(int id);
     boolean login(String username,String password);
     boolean adminLogin(String username,String password);
+    User findById(int id);
+    boolean updateBalance(int id,double newBalance);
+    int countUser();
 }

@@ -4,7 +4,7 @@
  */
 package service.imp;
 
-import db.DatabaseConnect;
+import db.BaseRepository;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -23,7 +23,7 @@ import service.IUserService;
  */
 public class UserService implements IUserService{
     IUserRepository userRepository = new UserRepository();
-    private DatabaseConnect database;
+    private BaseRepository database;
     private Connection connection;
     private PreparedStatement ps;
     //Register
@@ -38,8 +38,8 @@ public class UserService implements IUserService{
     }
 
     @Override
-    public User getById(int id) {
-        return userRepository.getById(id);
+    public User getByUsername(String username) {
+        return userRepository.getByUsername(username);
     }
 
     @Override
@@ -81,6 +81,21 @@ public class UserService implements IUserService{
     @Override
     public boolean adminLogin(String username, String password) {
         return userRepository.adminLogin(username, password);
+    }
+
+    @Override
+    public User findById(int id) {
+        return userRepository.findById(id);
+    }
+
+    @Override
+    public boolean updateBalance(int id, double newBalance) {
+        return userRepository.updateBalance(id, newBalance);
+    }
+
+    @Override
+    public int countUser() {
+        return userRepository.countUser();
     }
     
     

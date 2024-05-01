@@ -4,17 +4,85 @@
  */
 package view.admin;
 
+import com.mysql.cj.jdbc.result.ResultSetMetaData;
+import java.sql.ResultSet;
+import java.util.List;
+import java.util.Vector;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import model.ExpenseIncomeEntry;
+import model.User;
+import model.UserTableModel;
+import service.IUserService;
+import service.imp.UserService;
+
 /**
  *
  * @author TechCare
  */
 public class UserList extends javax.swing.JFrame {
 
+    private IUserService service = new UserService();
+    private UserTableModel tableModel = new UserTableModel();
+    private static User user;
+
+    public UserList(User user) {
+        this.user = user;
+        initComponents();
+        table.setModel(tableModel);
+        table.setFillsViewportHeight(true);
+        showList();
+
+        // Set the title, default close operation, and visibility of the main frame.
+        setTitle("Userlist for admin");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        pack();
+        setVisible(true);
+    }
+
     /**
      * Creates new form UserList
      */
-    public UserList() {
-        initComponents();
+    public void showList() {
+        List<User> entries = service.getAll();
+
+        // Populate table rows
+        for (User entry : entries) {
+            tableModel.addEntry(entry);
+        }
+
+        // Notify the table that the data has changed
+        tableModel.fireTableDataChanged();
+    }
+
+    private void delEntry() {
+        int selRow = table.getSelectedRow();
+        if (selRow == -1) {
+            // No row is selected, show an error message
+            JOptionPane.showMessageDialog(null, "Please select a record to delete.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        int id = Integer.parseInt(table.getValueAt(selRow, 0).toString());
+
+        int delItem = JOptionPane.showConfirmDialog(null, "Confirm if you want to delete this?", "Warning", JOptionPane.YES_NO_OPTION);
+        if (delItem == JOptionPane.YES_OPTION) {
+            service.delete(id);
+            JOptionPane.showMessageDialog(null, "Record Deleted");
+        }
+        dispose();
+        new UserList(user).setVisible(true);
+    }
+
+    public void clearTable() {
+        List<User> entries = service.getAll();
+        for (int i = 0;i < entries.size();i++) {
+            tableModel.removeEntry();
+        }
+
+        // Notify the table that the data has changed
+        tableModel.fireTableDataChanged();
     }
 
     /**
@@ -26,21 +94,89 @@ public class UserList extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        jPanel1 = new javax.swing.JPanel();
+        searchField = new javax.swing.JTextField();
+        searchBtn = new javax.swing.JButton();
+        back = new javax.swing.JButton();
+        delBtn = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        table = new javax.swing.JTable();
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
-        );
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel1.setBackground(new java.awt.Color(3, 21, 68));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanel1.add(searchField, new org.netbeans.lib.awtextra.AbsoluteConstraints(465, 27, 206, -1));
+
+        searchBtn.setText("Search");
+        searchBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchBtnActionPerformed(evt);
+            }
+        });
+        jPanel1.add(searchBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(677, 27, 76, -1));
+
+        back.setText("Back");
+        back.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backActionPerformed(evt);
+            }
+        });
+        jPanel1.add(back, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 27, 76, -1));
+
+        delBtn.setBackground(java.awt.Color.red);
+        delBtn.setForeground(new java.awt.Color(242, 242, 242));
+        delBtn.setText("Delete");
+        delBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                delBtnActionPerformed(evt);
+            }
+        });
+        jPanel1.add(delBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 20, 110, 50));
+
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 770, 80));
+
+        table.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(table);
+
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 80, 760, 480));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backActionPerformed
+        // TODO add your handling code here:
+        new AdminDashboard(user).setVisible(true);
+        dispose();
+    }//GEN-LAST:event_backActionPerformed
+
+    private void delBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_delBtnActionPerformed
+        // TODO add your handling code here:
+        delEntry();
+    }//GEN-LAST:event_delBtnActionPerformed
+
+    private void searchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBtnActionPerformed
+        // TODO add your handling code here:
+        clearTable();
+        List<User> userFind = tableModel.findEntry(searchField.getText());
+        for (User entry : userFind) {
+            tableModel.addEntry(entry);
+        }
+
+        // Notify the table that the data has changed
+        tableModel.fireTableDataChanged();
+    }//GEN-LAST:event_searchBtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -72,11 +208,18 @@ public class UserList extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new UserList().setVisible(true);
+                new UserList(user).setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton back;
+    private javax.swing.JButton delBtn;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton searchBtn;
+    private javax.swing.JTextField searchField;
+    private javax.swing.JTable table;
     // End of variables declaration//GEN-END:variables
 }

@@ -6,6 +6,9 @@ package view.admin;
 
 import java.awt.Image;
 import javax.swing.ImageIcon;
+import model.User;
+import service.IUserService;
+import service.imp.UserService;
 import view.security.LoginForm;
 
 /**
@@ -13,6 +16,17 @@ import view.security.LoginForm;
  * @author TechCare
  */
 public class AdminDashboard extends javax.swing.JFrame {
+    private User user;
+        private IUserService service = new UserService();
+
+
+    public AdminDashboard(User user) {
+        this.user = service.getByUsername(user.getUsername());
+        initComponents();
+        scaleImage();
+        setTitle("Dashboard");
+
+    }
 
     /**
      * Creates new form AdminDashboard
@@ -20,6 +34,8 @@ public class AdminDashboard extends javax.swing.JFrame {
     public AdminDashboard() {
         initComponents();
         scaleImage();
+   
+
     }
     public void scaleImage(){
         ImageIcon icon = new ImageIcon("E:\\VKU\\JavaAdvandce\\Lab1\\DACS1\\src\\assets\\administrator.png");
@@ -42,6 +58,16 @@ public class AdminDashboard extends javax.swing.JFrame {
         iconAdmin.setIcon(scaledIcon);
         iconUs.setIcon(scaledIconUs);
         iconExp.setIcon(scaledIconExp);
+        usernameLabel.setText(user.getUsername());
+        userAmount.setText(String.valueOf(service.countUser()));
+        if( user.getBalance()> 0) {
+            expense.setText(String.valueOf(user.getBalance()));
+            expense.setForeground(java.awt.Color.BLUE);
+        } else {
+            expense.setText(String.valueOf(user.getBalance()));
+            expense.setForeground(java.awt.Color.RED);
+            
+        }
     }
 
     /**
@@ -55,8 +81,13 @@ public class AdminDashboard extends javax.swing.JFrame {
 
         jPanel2 = new javax.swing.JPanel();
         iconAdmin = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
         logoutBtn = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        usernameLabel = new javax.swing.JLabel();
+        userAmount = new javax.swing.JLabel();
+        usernameLabel4 = new javax.swing.JLabel();
+        expense = new javax.swing.JLabel();
+        ExpenseLabel = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         iconExp = new javax.swing.JButton();
         iconUs = new javax.swing.JButton();
@@ -67,10 +98,8 @@ public class AdminDashboard extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
-
-        jLabel2.setFont(new java.awt.Font("Segoe UI Emoji", 0, 18)); // NOI18N
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("Welcome back, Admin!");
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanel2.add(iconAdmin, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 6, 241, 234));
 
         logoutBtn.setText("Logout");
         logoutBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -78,32 +107,40 @@ public class AdminDashboard extends javax.swing.JFrame {
                 logoutBtnActionPerformed(evt);
             }
         });
+        jPanel2.add(logoutBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 540, 111, -1));
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(iconAdmin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(69, 69, 69)
-                .addComponent(logoutBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(iconAdmin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(60, 60, 60)
-                .addComponent(logoutBtn)
-                .addGap(90, 90, 90))
-        );
+        jLabel3.setFont(new java.awt.Font("Segoe UI Emoji", 0, 18)); // NOI18N
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setText("Welcome back, Admin!");
+        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 246, 253, 80));
+
+        usernameLabel.setFont(new java.awt.Font("Segoe UI Emoji", 0, 36)); // NOI18N
+        usernameLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jPanel2.add(usernameLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 310, 253, 70));
+
+        userAmount.setFont(new java.awt.Font("Segoe UI Emoji", 0, 18)); // NOI18N
+        userAmount.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        userAmount.setText("users amount  ");
+        userAmount.setToolTipText("");
+        jPanel2.add(userAmount, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 490, 250, 30));
+
+        usernameLabel4.setFont(new java.awt.Font("Segoe UI Emoji", 0, 18)); // NOI18N
+        usernameLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        usernameLabel4.setText("users amount  ");
+        usernameLabel4.setToolTipText("");
+        jPanel2.add(usernameLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 450, 250, 30));
+
+        expense.setFont(new java.awt.Font("Segoe UI Emoji", 0, 18)); // NOI18N
+        expense.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        expense.setText("users amount  ");
+        expense.setToolTipText("");
+        jPanel2.add(expense, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 410, 250, 30));
+
+        ExpenseLabel.setFont(new java.awt.Font("Segoe UI Emoji", 0, 18)); // NOI18N
+        ExpenseLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        ExpenseLabel.setText("Expense");
+        ExpenseLabel.setToolTipText("");
+        jPanel2.add(ExpenseLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 370, 250, 30));
 
         jPanel1.setBackground(new java.awt.Color(3, 21, 68));
 
@@ -118,6 +155,11 @@ public class AdminDashboard extends javax.swing.JFrame {
 
         iconUs.setToolTipText("");
         iconUs.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        iconUs.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                iconUsActionPerformed(evt);
+            }
+        });
 
         iconUs1.setBackground(new java.awt.Color(242, 242, 242));
         iconUs1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
@@ -185,7 +227,7 @@ public class AdminDashboard extends javax.swing.JFrame {
 
     private void iconExpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_iconExpActionPerformed
         // TODO add your handling code here:
-        ExpenseList exp = new ExpenseList();
+        ExpenseListAdmin exp =new ExpenseListAdmin(user);
         exp.setVisible(true);
         dispose();
     }//GEN-LAST:event_iconExpActionPerformed
@@ -196,6 +238,12 @@ public class AdminDashboard extends javax.swing.JFrame {
         LoginForm form = new LoginForm();
         form.setVisible(true);
     }//GEN-LAST:event_logoutBtnActionPerformed
+
+    private void iconUsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_iconUsActionPerformed
+        // TODO add your handling code here:
+        new UserList(user).setVisible(true);
+        dispose();
+    }//GEN-LAST:event_iconUsActionPerformed
 
     /**
      * @param args the command line arguments
@@ -233,15 +281,20 @@ public class AdminDashboard extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel ExpenseLabel;
+    private javax.swing.JLabel expense;
     private javax.swing.JLabel iconAdmin;
     private javax.swing.JButton iconExp;
     private javax.swing.JButton iconUs;
     private javax.swing.JButton iconUs1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JButton logoutBtn;
+    private javax.swing.JLabel userAmount;
+    private javax.swing.JLabel usernameLabel;
+    private javax.swing.JLabel usernameLabel4;
     // End of variables declaration//GEN-END:variables
 }

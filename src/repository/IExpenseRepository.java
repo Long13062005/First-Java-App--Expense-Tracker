@@ -15,8 +15,10 @@ import model.User;
  */
 public interface IExpenseRepository {
      boolean create(ExpenseIncomeEntry expenseIncomeEntry,User user);
-    List<ExpenseIncomeEntry> getAll();
-    ExpenseIncomeEntry getById(int id);
-    boolean update(ExpenseIncomeEntry expenseIncomeEntry,User user);
-    boolean delete(int id);
+    List<ExpenseIncomeEntry> getAll(User user);
+    ExpenseIncomeEntry getById(int id,User user);
+    boolean delete(int id,User user);
+    
+    int createAndGetId(ExpenseIncomeEntry entry, User user);
+    List<ExpenseIncomeEntry> findByDate(String date,User user);
 }
