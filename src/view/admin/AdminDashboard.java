@@ -166,6 +166,11 @@ public class AdminDashboard extends javax.swing.JFrame {
         iconUs1.setText("Feedback");
         iconUs1.setToolTipText("");
         iconUs1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        iconUs1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                iconUs1ActionPerformed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
@@ -244,6 +249,11 @@ public class AdminDashboard extends javax.swing.JFrame {
         new UserList(user).setVisible(true);
         dispose();
     }//GEN-LAST:event_iconUsActionPerformed
+
+    private void iconUs1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_iconUs1ActionPerformed
+        // TODO add your handling code here:
+        new FeedbackList().setVisible(true);
+    }//GEN-LAST:event_iconUs1ActionPerformed
 
     /**
      * @param args the command line arguments

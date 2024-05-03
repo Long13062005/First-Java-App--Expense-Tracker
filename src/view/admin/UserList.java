@@ -24,13 +24,15 @@ import service.imp.UserService;
 public class UserList extends javax.swing.JFrame {
 
     private IUserService service = new UserService();
-    private UserTableModel tableModel = new UserTableModel();
+    private UserTableModel tableModel ;
     private static User user;
 
     public UserList(User user) {
         this.user = user;
         initComponents();
+        tableModel = new UserTableModel();
         table.setModel(tableModel);
+        
         table.setFillsViewportHeight(true);
         showList();
 
@@ -53,7 +55,6 @@ public class UserList extends javax.swing.JFrame {
         }
 
         // Notify the table that the data has changed
-        tableModel.fireTableDataChanged();
     }
 
     private void delEntry() {
@@ -76,13 +77,7 @@ public class UserList extends javax.swing.JFrame {
     }
 
     public void clearTable() {
-        List<User> entries = service.getAll();
-        for (int i = 0;i < entries.size();i++) {
-            tableModel.removeEntry();
-        }
-
-        // Notify the table that the data has changed
-        tableModel.fireTableDataChanged();
+            tableModel.delEntry();
     }
 
     /**
@@ -161,22 +156,24 @@ public class UserList extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_backActionPerformed
 
-    private void delBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_delBtnActionPerformed
-        // TODO add your handling code here:
-        delEntry();
-    }//GEN-LAST:event_delBtnActionPerformed
-
     private void searchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBtnActionPerformed
         // TODO add your handling code here:
-        clearTable();
-        List<User> userFind = tableModel.findEntry(searchField.getText());
-        for (User entry : userFind) {
-            tableModel.addEntry(entry);
-        }
+         // Clear the table before performing a search
+    
+    // Search for entries based on the search query
+    List<User> userFind = tableModel.findEntry(searchField.getText());
+    
+    // Add the search results to the table model
+    new SearchResultWindow(userFind);
 
-        // Notify the table that the data has changed
-        tableModel.fireTableDataChanged();
+    // Notify the table that the data has changed
     }//GEN-LAST:event_searchBtnActionPerformed
+
+    private void delBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_delBtnActionPerformed
+        // TODO add your handling code here:
+                delEntry();
+
+    }//GEN-LAST:event_delBtnActionPerformed
 
     /**
      * @param args the command line arguments

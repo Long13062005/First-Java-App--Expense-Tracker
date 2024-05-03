@@ -201,6 +201,7 @@ public class ExpenseListUser extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         clearBtn = new javax.swing.JButton();
         clearBtn1 = new javax.swing.JButton();
+        searcbBtn = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         balanceLabel = new javax.swing.JLabel();
         delBtn = new javax.swing.JButton();
@@ -283,6 +284,17 @@ public class ExpenseListUser extends javax.swing.JFrame {
             }
         });
         jPanel1.add(clearBtn1, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 60, 90, 30));
+
+        searcbBtn.setBackground(new java.awt.Color(204, 204, 0));
+        searcbBtn.setFont(new java.awt.Font("Segoe UI Symbol", 1, 18)); // NOI18N
+        searcbBtn.setForeground(new java.awt.Color(255, 255, 255));
+        searcbBtn.setText("Search");
+        searcbBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searcbBtnActionPerformed(evt);
+            }
+        });
+        jPanel1.add(searcbBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 60, 180, 30));
 
         jPanel2.setBackground(java.awt.Color.darkGray);
         jPanel2.setForeground(java.awt.Color.darkGray);
@@ -379,6 +391,20 @@ public class ExpenseListUser extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_clearBtn1ActionPerformed
 
+    private void searcbBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searcbBtnActionPerformed
+        // TODO add your handling code here:
+         if (dateField.getCalendar() == null) {
+        JOptionPane.showMessageDialog(this, "Enter the Date", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    String date = dateFormat.format(dateField.getDate());
+          List<ExpenseIncomeEntry> expenseIncomeEntrys = expenseService.findByDate(date,userService.findById(user.getId()));
+    
+    // Add the search results to the table model
+    new SearchExpenseWindow(expenseIncomeEntrys);
+    }//GEN-LAST:event_searcbBtnActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -439,6 +465,7 @@ public class ExpenseListUser extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JButton searcbBtn;
     private javax.swing.JTable table;
     private javax.swing.JComboBox<String> typeBox;
     // End of variables declaration//GEN-END:variables

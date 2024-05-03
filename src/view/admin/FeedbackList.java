@@ -4,17 +4,85 @@
  */
 package view.admin;
 
+import java.util.List;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import model.ExpenseIncomeEntry;
+import model.Feedback;
+import model.FeedbackTableModel;
+import service.IFeedbackService;
+import service.IUserService;
+import service.imp.FeedbackService;
+import service.imp.UserService;
+
 /**
  *
  * @author TechCare
  */
 public class FeedbackList extends javax.swing.JFrame {
 
+    private FeedbackTableModel tableModel = new FeedbackTableModel();
+    private IFeedbackService feedbackService = new FeedbackService();
+    private IUserService userService = new UserService();
+
     /**
      * Creates new form FeedbackList
      */
     public FeedbackList() {
         initComponents();
+        table.setModel(tableModel);
+        table.setFillsViewportHeight(true);
+        showList();
+
+        // Set the title, default close operation, and visibility of the main frame.
+        setTitle("Expenses And Incomes Tracker");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        pack();
+        setVisible(true);
+    }
+
+    private void showList() {
+        List<Feedback> entries = feedbackService.showList();
+
+        // Populate table rows
+        for (Feedback entry : entries) {
+            tableModel.addEntry(entry);
+        }
+
+        // Notify the table that the data has changed
+        tableModel.fireTableDataChanged();
+    }
+
+    private void delEntry() {
+        int selRow = table.getSelectedRow();
+        if (selRow == -1) {
+            // No row is selected, show an error message
+            JOptionPane.showMessageDialog(null, "Please select a record to delete.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        int id = Integer.parseInt(table.getValueAt(selRow, 0).toString());
+        
+        int delItem = JOptionPane.showConfirmDialog(null, "Confirm if you want to delete this?", "Warning", JOptionPane.YES_NO_OPTION);
+        if (delItem == JOptionPane.YES_OPTION) {
+            
+            JOptionPane.showMessageDialog(null, "Record Deleted");
+        }
+        dispose();
+        new FeedbackList().setVisible(true);
+    }
+
+    private void readEntry() {
+        int selRow = table.getSelectedRow();
+        if (selRow == -1) {
+            // No row is selected, show an error message
+            JOptionPane.showMessageDialog(null, "Please select a record to read.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        int id = Integer.parseInt(table.getValueAt(selRow, 0).toString());
+        Feedback f = feedbackService.findById(id);
+        new FeedbackInfo(f).setVisible(true);
     }
 
     /**
@@ -26,21 +94,83 @@ public class FeedbackList extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        jPanel1 = new javax.swing.JPanel();
+        backBtn = new javax.swing.JButton();
+        readBtn = new javax.swing.JButton();
+        delBtn = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        table = new javax.swing.JTable();
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
-        );
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel1.setBackground(new java.awt.Color(3, 21, 68));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        backBtn.setText("Back");
+        backBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backBtnActionPerformed(evt);
+            }
+        });
+        jPanel1.add(backBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
+
+        readBtn.setBackground(new java.awt.Color(51, 102, 255));
+        readBtn.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        readBtn.setForeground(new java.awt.Color(242, 242, 242));
+        readBtn.setText("Read");
+        readBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                readBtnActionPerformed(evt);
+            }
+        });
+        jPanel1.add(readBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 20, 120, 40));
+
+        delBtn.setBackground(new java.awt.Color(255, 0, 51));
+        delBtn.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        delBtn.setForeground(new java.awt.Color(242, 242, 242));
+        delBtn.setText("Delete");
+        delBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                delBtnActionPerformed(evt);
+            }
+        });
+        jPanel1.add(delBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 20, 120, 40));
+
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 700, 80));
+
+        table.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(table);
+
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 80, 690, 440));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void backBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backBtnActionPerformed
+        // TODO add your handling code here:
+        dispose();
+    }//GEN-LAST:event_backBtnActionPerformed
+
+    private void readBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_readBtnActionPerformed
+        // TODO add your handling code here:
+        readEntry();
+    }//GEN-LAST:event_readBtnActionPerformed
+
+    private void delBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_delBtnActionPerformed
+        // TODO add your handling code here:
+        delEntry();
+    }//GEN-LAST:event_delBtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -78,5 +208,11 @@ public class FeedbackList extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton backBtn;
+    private javax.swing.JButton delBtn;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton readBtn;
+    private javax.swing.JTable table;
     // End of variables declaration//GEN-END:variables
 }

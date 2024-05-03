@@ -75,8 +75,9 @@ public class UserRepository implements IUserRepository {
                 int id = resultSet.getInt("id");
                 String username = resultSet.getString("username");
                 String password = resultSet.getString("password");
+                                double price = resultSet.getDouble("balance");
                 int roleId = resultSet.getInt("role_id");
-                User user = new User(id, username, password, roleId);
+                User user = new User(id, username, password, price,roleId);
                 userList.add(user);
 
             }

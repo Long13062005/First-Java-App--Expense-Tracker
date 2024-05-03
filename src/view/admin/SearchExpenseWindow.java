@@ -2,19 +2,52 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package view.user;
+package view.admin;
+
+import java.util.List;
+import javax.swing.JFrame;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import model.ExpenseIncomeEntry;
+import model.ExpenseIncomeTableModel;
+import model.User;
+import model.UserTableModel;
 
 /**
  *
  * @author TechCare
  */
-public class Feedback extends javax.swing.JFrame {
+public class SearchExpenseWindow extends javax.swing.JFrame {
 
     /**
-     * Creates new form Feedback
+     * Creates new form SearchResultWindow
      */
-    public Feedback() {
-        initComponents();
+       private JTable table;
+    private ExpenseIncomeTableModel tableModel;
+    private static List<ExpenseIncomeEntry> searchResult;
+
+    public SearchExpenseWindow(List<ExpenseIncomeEntry> searchResults) {
+        this.searchResult = searchResults;
+        initComponents(searchResults);
+        setTitle("Search Results");
+        setSize(600, 400);
+        setLocationRelativeTo(null); // Center the window
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Close only this window, not the entire application
+        setVisible(true);
+    }
+
+    private void initComponents(List<ExpenseIncomeEntry> searchResults) {
+        tableModel = new ExpenseIncomeTableModel();
+        table = new JTable(tableModel);
+        JScrollPane scrollPane = new JScrollPane(table);
+
+        // Populate the table with search results
+        for (ExpenseIncomeEntry entry : searchResults) {
+            tableModel.addEntry(entry);
+        }
+
+        // Add components to the frame
+        add(scrollPane);
     }
 
     /**
@@ -59,20 +92,21 @@ public class Feedback extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Feedback.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SearchExpenseWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Feedback.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SearchExpenseWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Feedback.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SearchExpenseWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Feedback.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SearchExpenseWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Feedback().setVisible(true);
+                new SearchExpenseWindow(searchResult).setVisible(true);
             }
         });
     }

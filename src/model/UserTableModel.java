@@ -45,12 +45,13 @@ public class UserTableModel extends AbstractTableModel {
         // Notify the table that a new row has been inserted
         fireTableRowsInserted(entries.size()-1, entries.size()-1);
     }
-    public void delEntry(int id) {
-        for(int i = 0;i< entries.size();i++) {
-            if(entries.get(i).getId() == id) {
-                entries.remove(id);
-            }
-        }
+    public void delEntry() {
+       for (int i = 0; i < entries.size(); i++) {
+            entries.remove(i);
+            // Notify the table that a row has been deleted
+            fireTableRowsDeleted(i, i);
+            break; // Exit the loop after deleting the entry
+    }
     }
      public void removeEntry() {
         for(int i = 0;i< entries.size();i++) {

@@ -196,6 +196,7 @@ public class ExpenseListAdmin extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         clearBtn = new javax.swing.JButton();
         clearBtn1 = new javax.swing.JButton();
+        searchBtn = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         balanceLabel = new javax.swing.JLabel();
         delBtn = new javax.swing.JButton();
@@ -278,6 +279,17 @@ public class ExpenseListAdmin extends javax.swing.JFrame {
             }
         });
         jPanel1.add(clearBtn1, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 60, 90, 30));
+
+        searchBtn.setBackground(new java.awt.Color(204, 204, 0));
+        searchBtn.setFont(new java.awt.Font("Segoe UI Symbol", 1, 18)); // NOI18N
+        searchBtn.setForeground(new java.awt.Color(255, 255, 255));
+        searchBtn.setText("Search");
+        searchBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchBtnActionPerformed(evt);
+            }
+        });
+        jPanel1.add(searchBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 60, 190, 30));
 
         jPanel2.setBackground(java.awt.Color.darkGray);
         jPanel2.setForeground(java.awt.Color.darkGray);
@@ -374,6 +386,20 @@ public class ExpenseListAdmin extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_clearBtn1ActionPerformed
 
+    private void searchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBtnActionPerformed
+        // TODO add your handling code here:
+         if (dateField.getCalendar() == null) {
+        JOptionPane.showMessageDialog(this, "Enter the Date", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    String date = dateFormat.format(dateField.getDate());
+          List<ExpenseIncomeEntry> expenseIncomeEntrys = expenseService.findByDate(date,userService.findById(user.getId()));
+    
+    // Add the search results to the table model
+    new SearchExpenseWindow(expenseIncomeEntrys);
+    }//GEN-LAST:event_searchBtnActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -430,6 +456,7 @@ public class ExpenseListAdmin extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JButton searchBtn;
     private javax.swing.JTable table;
     private javax.swing.JComboBox<String> typeBox;
     // End of variables declaration//GEN-END:variables

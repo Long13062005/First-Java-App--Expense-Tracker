@@ -136,6 +136,11 @@ public class UserDashboard extends javax.swing.JFrame {
         iconUs1.setText("Feedback");
         iconUs1.setToolTipText("");
         iconUs1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        iconUs1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                iconUs1ActionPerformed(evt);
+            }
+        });
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
@@ -197,6 +202,11 @@ public class UserDashboard extends javax.swing.JFrame {
         ExpenseListUser el = new ExpenseListUser(user);
         el.setVisible(true);
     }//GEN-LAST:event_iconExpActionPerformed
+
+    private void iconUs1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_iconUs1ActionPerformed
+        // TODO add your handling code here:
+        new FeedbackWindow(user).setVisible(true);
+    }//GEN-LAST:event_iconUs1ActionPerformed
 
     /**
      * @param args the command line arguments

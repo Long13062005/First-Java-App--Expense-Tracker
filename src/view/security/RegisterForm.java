@@ -7,22 +7,24 @@ package view.security;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
- import java.sql.*;
+import java.sql.*;
 import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.Timer;
 import model.User;
 import service.imp.UserService;
- 
 
 /**
  *
  * @author TechCare
  */
 public class RegisterForm extends javax.swing.JFrame {
+
     UserService userService = new UserService();
+
     /**
      * Creates new form LoginForm
      */
@@ -31,14 +33,14 @@ public class RegisterForm extends javax.swing.JFrame {
         scaleImage();
 
     }
-      public void scaleImage(){
+
+    public void scaleImage() {
         ImageIcon icon = new ImageIcon("E:\\VKU\\JavaAdvandce\\Lab1\\DACS1\\src\\assets\\login.png");
         Image image = icon.getImage();
         Image imgScale = image.getScaledInstance(iconAcc.getWidth(), iconAcc.getHeight(), Image.SCALE_SMOOTH);
         ImageIcon scaledIcon = new ImageIcon(imgScale);
         iconAcc.setIcon(scaledIcon);
     }
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -278,62 +280,66 @@ public class RegisterForm extends javax.swing.JFrame {
         LoginForm loginForm = new LoginForm();
         loginForm.show();
         dispose();
-          
-        
+
+
     }//GEN-LAST:event_loginBtnActionPerformed
 
     private void registerBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerBtnActionPerformed
-         String enteredUsername = username.getText();
-    char[] enteredPassword = password.getPassword();
-    char[] enteredConfirmPassword = confirmPassword.getPassword();
-    
-if (enteredUsername.isBlank()) {
-    jUsernameCheck.setText("Please enter a username");
-    jUsernameCheck.setForeground(java.awt.Color.RED);
-    return;
-}
+        String enteredUsername = username.getText();
+        char[] enteredPassword = password.getPassword();
+        char[] enteredConfirmPassword = confirmPassword.getPassword();
+
+        if (enteredUsername.isBlank()) {
+            jUsernameCheck.setText("Please enter a username");
+            jUsernameCheck.setForeground(java.awt.Color.RED);
+            return;
+        }
 
 // Check if username is already taken
-if (userService.checkUsernameDuplicate(enteredUsername)) {
-    jUsernameCheck.setText("Username already taken");
-    jUsernameCheck.setForeground(java.awt.Color.RED);
-    return;
-}
+        if (userService.checkUsernameDuplicate(enteredUsername)) {
+            jUsernameCheck.setText("Username already taken");
+            jUsernameCheck.setForeground(java.awt.Color.RED);
+            return;
+        }
 
 // Check if password is empty
-if (enteredPassword.length == 0) {
-    jLabel_Message.setText("Please enter a password");
-    jLabel_Message.setForeground(java.awt.Color.RED);
-    return;
-}
+        if (enteredPassword.length == 0) {
+            jLabel_Message.setText("Please enter a password");
+            jLabel_Message.setForeground(java.awt.Color.RED);
+            return;
+        }
 
 // Check if passwords match
-if (!Arrays.equals(enteredPassword, enteredConfirmPassword)) {
-    jLabel_Message.setText("Passwords do not match");
-    jLabel_Message.setForeground(java.awt.Color.RED);
-    return;
-}
+        if (!Arrays.equals(enteredPassword, enteredConfirmPassword)) {
+            jLabel_Message.setText("Passwords do not match");
+            jLabel_Message.setForeground(java.awt.Color.RED);
+            return;
+        }
 
 // Create a new user object
-User user = new User(enteredUsername, String.valueOf(enteredPassword));
+        User user = new User(enteredUsername, String.valueOf(enteredPassword));
 
 // Attempt to create the user
-if (userService.create(user)) {
-    jLabel_Message.setText("Registered successfully");
-    jLabel_Message.setForeground(java.awt.Color.GREEN);
-} else {
-    jLabel_Message.setText("Failed to register. Please try again.");
-    jLabel_Message.setForeground(java.awt.Color.RED);
-}
+        if (userService.create(user)) {
+            jLabel_Message.setText("Registered successfully");
+            jLabel_Message.setForeground(java.awt.Color.GREEN);
+            JOptionPane.showMessageDialog(null, "Registered successfully");
+            new LoginForm().setVisible(true);
+            dispose();
+
+        } else {
+            jLabel_Message.setText("Failed to register. Please try again.");
+            jLabel_Message.setForeground(java.awt.Color.RED);
+        }
     }//GEN-LAST:event_registerBtnActionPerformed
 
     private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
         // TODO add your handling code here:
-        
-        if(jCheckBox1.isSelected()){
-            password.setEchoChar((char)0);
-        }else{
-          password.setEchoChar('*');
+
+        if (jCheckBox1.isSelected()) {
+            password.setEchoChar((char) 0);
+        } else {
+            password.setEchoChar('*');
         }
     }//GEN-LAST:event_jCheckBox1ActionPerformed
 
@@ -375,8 +381,7 @@ if (userService.create(user)) {
                 new RegisterForm().setVisible(true);
             }
         });
-        
-        
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
