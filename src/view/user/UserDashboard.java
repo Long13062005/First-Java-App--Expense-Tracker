@@ -10,6 +10,7 @@ import javax.swing.ImageIcon;
 import model.User;
 import service.IUserService;
 import service.imp.UserService;
+import view.security.ChangePassWindow;
 import view.security.LoginForm;
 
 /**
@@ -82,6 +83,7 @@ public class UserDashboard extends javax.swing.JFrame {
         Income = new javax.swing.JLabel();
         expenseLabel = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
+        changeBtn = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         iconExp = new javax.swing.JButton();
         iconUs1 = new javax.swing.JButton();
@@ -99,7 +101,7 @@ public class UserDashboard extends javax.swing.JFrame {
                 logoutBtnActionPerformed(evt);
             }
         });
-        jPanel2.add(logoutBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 550, 83, -1));
+        jPanel2.add(logoutBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 550, 83, -1));
 
         usernameLabel.setFont(new java.awt.Font("Segoe UI Emoji", 1, 36)); // NOI18N
         usernameLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -120,6 +122,14 @@ public class UserDashboard extends javax.swing.JFrame {
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel5.setText("Welcome back");
         jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 250, 247, 80));
+
+        changeBtn.setText("Change Password");
+        changeBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                changeBtnActionPerformed(evt);
+            }
+        });
+        jPanel2.add(changeBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 550, 150, -1));
 
         jPanel1.setBackground(new java.awt.Color(3, 21, 68));
 
@@ -152,7 +162,7 @@ public class UserDashboard extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(85, Short.MAX_VALUE)
+                .addContainerGap(79, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(iconExp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(iconUs1, javax.swing.GroupLayout.DEFAULT_SIZE, 228, Short.MAX_VALUE)
@@ -208,6 +218,12 @@ public class UserDashboard extends javax.swing.JFrame {
         new FeedbackWindow(user).setVisible(true);
     }//GEN-LAST:event_iconUs1ActionPerformed
 
+    private void changeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changeBtnActionPerformed
+        // TODO add your handling code here:
+                new ChangePassWindow(user).setVisible(true);
+
+    }//GEN-LAST:event_changeBtnActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -246,6 +262,7 @@ public class UserDashboard extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Income;
+    private javax.swing.JButton changeBtn;
     private javax.swing.JLabel expenseLabel;
     private javax.swing.JLabel iconAdmin;
     private javax.swing.JButton iconExp;

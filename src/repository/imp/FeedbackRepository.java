@@ -29,7 +29,7 @@ public class FeedbackRepository implements IFeedbackRepository {
     private PreparedStatement ps;
     private final String SHOW_LIST = "Select * from feedback";
     private final String ADD_FEEDBACK = "INSERT INTO `feedback` (description,user_id) VALUES (?,?)";
-    private final String DEL_FEEDBACK = "DELETE FROM EXPENSE WHERE id = ? ";
+    private final String DEL_FEEDBACK = "DELETE FROM feedback WHERE id = ? ";
     private final String FIND_ID_FEEDBACK = "Select * from feedback where id = ? ";
 
     @Override

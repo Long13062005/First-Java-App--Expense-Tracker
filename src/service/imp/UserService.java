@@ -43,8 +43,8 @@ public class UserService implements IUserService{
     }
 
     @Override
-    public boolean changePassword(User user) {
-        return userRepository.changePassword(user);
+    public boolean changePassword(User user,String changePassword) {
+        return userRepository.changePassword(user,changePassword);
     }
 
     @Override

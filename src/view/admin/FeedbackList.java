@@ -65,7 +65,7 @@ public class FeedbackList extends javax.swing.JFrame {
         
         int delItem = JOptionPane.showConfirmDialog(null, "Confirm if you want to delete this?", "Warning", JOptionPane.YES_NO_OPTION);
         if (delItem == JOptionPane.YES_OPTION) {
-            
+            feedbackService.delFeedback(id);
             JOptionPane.showMessageDialog(null, "Record Deleted");
         }
         dispose();

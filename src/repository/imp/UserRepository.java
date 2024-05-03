@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import model.User;
 import model.dto.UserDto;
 import repository.IUserRepository;
@@ -33,6 +34,7 @@ public class UserRepository implements IUserRepository {
     private final String FIND_USER_ID = "SELECT * FROM USER WHERE ID = ?";
     private final String UPDATE_BALANCE = "UPDATE user SET balance = ? WHERE id = ?";
     private final String COUNT_USER = "SELECT COUNT(*) AS user_count FROM user WHERE role_id = 2;";
+    private final String CHANGE_PASSWORD = "UPDATE user SET password = ? WHERE id = ?";
 
     //Register
     @Override
@@ -147,9 +149,19 @@ public class UserRepository implements IUserRepository {
     }
 
     @Override
-    public boolean changePassword(User user) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+    public boolean changePassword(User user,String changePassword) {
+    connection = database.getConnectDB();
+
+        try {
+
+            ps = connection.prepareStatement(CHANGE_PASSWORD);
+            ps.setString(1,changePassword);
+            ps.setInt(2,user.getId());
+            return ps.executeUpdate() > 0;
+
+        } catch (SQLException e) {
+            return false;
+        }    }
 
     @Override
     public boolean delete(int id) {
@@ -162,6 +174,8 @@ public class UserRepository implements IUserRepository {
             return ps.executeUpdate() > 0;
 
         } catch (SQLException e) {
+                        JOptionPane.showMessageDialog(null, "Record can't be delete because this user still have expense and feedback");
+
             return false;
         }
     }

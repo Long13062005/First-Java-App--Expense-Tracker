@@ -10,6 +10,7 @@ import model.User;
 import service.IUserService;
 import service.imp.UserService;
 import view.security.LoginForm;
+import view.security.ChangePassWindow;
 
 /**
  *
@@ -88,6 +89,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         usernameLabel4 = new javax.swing.JLabel();
         expense = new javax.swing.JLabel();
         ExpenseLabel = new javax.swing.JLabel();
+        changeBtn = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         iconExp = new javax.swing.JButton();
         iconUs = new javax.swing.JButton();
@@ -107,7 +109,7 @@ public class AdminDashboard extends javax.swing.JFrame {
                 logoutBtnActionPerformed(evt);
             }
         });
-        jPanel2.add(logoutBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 540, 111, -1));
+        jPanel2.add(logoutBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 560, 111, -1));
 
         jLabel3.setFont(new java.awt.Font("Segoe UI Emoji", 0, 18)); // NOI18N
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -141,6 +143,14 @@ public class AdminDashboard extends javax.swing.JFrame {
         ExpenseLabel.setText("Expense");
         ExpenseLabel.setToolTipText("");
         jPanel2.add(ExpenseLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 370, 250, 30));
+
+        changeBtn.setText("Change Password");
+        changeBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                changeBtnActionPerformed(evt);
+            }
+        });
+        jPanel2.add(changeBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 560, 130, -1));
 
         jPanel1.setBackground(new java.awt.Color(3, 21, 68));
 
@@ -209,7 +219,7 @@ public class AdminDashboard extends javax.swing.JFrame {
                 .addComponent(jLabel4)
                 .addGap(18, 18, 18)
                 .addComponent(iconUs1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -255,6 +265,11 @@ public class AdminDashboard extends javax.swing.JFrame {
         new FeedbackList().setVisible(true);
     }//GEN-LAST:event_iconUs1ActionPerformed
 
+    private void changeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changeBtnActionPerformed
+        // TODO add your handling code here:
+        new ChangePassWindow(user).setVisible(true);
+    }//GEN-LAST:event_changeBtnActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -292,6 +307,7 @@ public class AdminDashboard extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel ExpenseLabel;
+    private javax.swing.JButton changeBtn;
     private javax.swing.JLabel expense;
     private javax.swing.JLabel iconAdmin;
     private javax.swing.JButton iconExp;
